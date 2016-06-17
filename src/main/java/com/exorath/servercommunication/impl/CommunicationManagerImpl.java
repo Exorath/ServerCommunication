@@ -2,6 +2,8 @@ package com.exorath.servercommunication.impl;
 
 import com.exorath.servercommunication.api.CommunicationManager;
 import com.exorath.servercommunication.api.communication.PubSub;
+import com.exorath.servercommunication.api.minecraft.MCServer;
+import com.exorath.servercommunication.api.servers.Server;
 
 /**
  * Created by Toon Sevrin on 6/16/2016.
@@ -31,5 +33,11 @@ public class CommunicationManagerImpl implements CommunicationManager {
      */
     public String getPublishChannel() {
         return publishChannel;
+    }
+
+    @Override
+    public void publishSelf(Server server) {
+        pubSub.publish(publishChannel, server.toString());
+        //TODO Generate method stub
     }
 }

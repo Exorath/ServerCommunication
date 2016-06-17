@@ -3,7 +3,6 @@ package com.exorath.servercommunication.impl.minecraft;
 import com.exorath.servercommunication.api.minecraft.players.PlayerConnectService;
 import com.exorath.servercommunication.api.minecraft.players.SerializedPlayer;
 import com.exorath.servercommunication.api.minecraft.MCServer;
-import com.exorath.servercommunication.impl.minecraft.players.PlayerConnectByRedis;
 import com.exorath.servercommunication.impl.minecraft.players.SerializedPlayerImpl;
 import com.exorath.servercommunication.impl.server.ServerImpl;
 import com.google.gson.GsonBuilder;
