@@ -23,14 +23,16 @@ public class PlayerConnectByRedis implements PlayerConnectService {
 
     private JedisPool jedisPool;
     private String connectChannel;
+    private String bungeeServerId;
 
-    public PlayerConnectByRedis(JedisPool jedisPool, String connectChannel) {
+    public PlayerConnectByRedis(String bungeeServerId, JedisPool jedisPool, String connectChannel) {
+        this.bungeeServerId = bungeeServerId;
         this.jedisPool = jedisPool;
         this.connectChannel = connectChannel;
     }
 
     @Override
-    public void connect(Player player, String bungeeServerId) {
+    public void connect(Player player) {
         new Thread(() -> {
             try (Jedis jedis = jedisPool.getResource()) {
                 jedis.publish(connectChannel, getMessage(player, bungeeServerId).toString());

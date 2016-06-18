@@ -5,7 +5,6 @@ import com.exorath.servercommunication.api.communication.SubscriptionConsumer;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
-import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.util.ArrayList;
 import java.util.List;

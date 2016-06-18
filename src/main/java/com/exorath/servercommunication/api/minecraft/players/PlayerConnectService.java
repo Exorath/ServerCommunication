@@ -10,7 +10,6 @@ public interface PlayerConnectService {
     /**
      * Tries to connect the provided player to the provided bungee server.
      * @param player player to connect to server
-     * @param bungeeServerId bungee server to move player to
      */
-    void connect(Player player, String bungeeServerId);
+    void connect(Player player);
 }

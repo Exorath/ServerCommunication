@@ -54,7 +54,7 @@ public class MCServerImpl extends ServerImpl implements MCServer{
 
     @Override
     public void add(Player player) {
-        connectService.connect(player, bungeeName );
+        connectService.connect(player);
         players.add(new SerializedPlayerImpl(player.getName(), player.getUniqueId()));
         updateJoinable();
     }
