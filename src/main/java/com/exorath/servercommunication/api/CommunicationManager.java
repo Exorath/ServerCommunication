@@ -33,6 +33,11 @@ public interface CommunicationManager {
     void publishSelf(Server server);
 
     /**
+     *
+     * @param channels
+     */
+    void subscribe(String... channels);
+    /**
      * Tries to start the CommunicationManager with an {@link redis.clients.jedis.JedisPubSub}
      *
      * @param jedisPool      Pool to fish redis resources out of.

@@ -26,8 +26,9 @@ public class CommunicationManagerTest {
     private static final String PUBLISH_CHANNEL = "publish";
 
     @Test
-    public void testPublishSelf() throws InterruptedException {
+    public void testPublishSelf() {
         final MutableBoolean connectMessageReceived = new MutableBoolean(false);
+
         CommunicationManager manager = CommunicationManager.create(new PubSub() {
             @Override
             public void publish(String channel, String message) {
@@ -43,8 +44,31 @@ public class CommunicationManagerTest {
         }, PUBLISH_CHANNEL);
 
         manager.publishSelf(new MCServerImpl(null, "bungeeid"));
+
         assertTrue(connectMessageReceived.booleanValue());
     }
+    @Test
+    public void testSubscribe() {
+        String[] channels = {"samplechannel1","samplechannel1","samplechannel1"};
+        final MutableBoolean connectMessageReceived = new MutableBoolean(false);
 
+        CommunicationManager manager = CommunicationManager.create(new PubSub() {
+            @Override
+            public void publish(String channel, String message) {}
+            @Override
+            public void subscribe(String... channels) {
+                if (channels.equals(channels))
+                    connectMessageReceived.setValue(true);
+            }
+            @Override
+            public void addSubscriptionConsumer(SubscriptionConsumer consumer) {}
+            @Override
+            public void close() {}
+        }, PUBLISH_CHANNEL);
+
+        manager.subscribe(channels);
+
+        assertTrue(connectMessageReceived.booleanValue());
+    }
     private static final String CONNECT_CHANNEL = "connect";
 }

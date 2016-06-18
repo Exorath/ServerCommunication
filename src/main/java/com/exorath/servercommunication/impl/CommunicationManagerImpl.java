@@ -37,7 +37,12 @@ public class CommunicationManagerImpl implements CommunicationManager {
 
     @Override
     public void publishSelf(Server server) {
-        pubSub.publish(publishChannel, server.toString());
+        pubSub.publish(publishChannel, server.toString());//TODO: server.toString
         //TODO Generate method stub
+    }
+
+    @Override
+    public void subscribe(String... channels) {
+        pubSub.subscribe(channels);
     }
 }
