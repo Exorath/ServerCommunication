@@ -1,18 +1,4 @@
 # ServerCommunication
 This open source project allows servers to ping each other with basic information, scalable due to it's filter oriented orientation.
-<repositories>
-  <repository>
-    <id>ServerCommunication.maven.snapshots</id>
-    <url>https://raw.github.com/Exorath/ServerCommunication/mvn-repo/</url>
-    <snapshots>
-      <enabled>true</enabled>
-      <updatePolicy>always</updatePolicy>
-    </snapshots>
-  </repository>
-</repositories>
-<dependencies>
-  <dependency>
-    <groupId>com.exorath</groupId>
-    <artifactId>ServerCommunication</artifactId>
-    <version>1.0-SNAPSHOT</version>
-</dependency>
+
+![Maven Repo](http://tools.inventivetalent.org/resource-util/description/maven/?repoId=ServerCommunication.maven.snapshots&repoUrl=https%3A%2F%2Fraw.github.com%2FExorath%2FServerCommunication%2Fmvn-repo%2F&groupId=com.exorath&artifactId=ServerCommunication&version=1.0-SNAPSHOT&image)
