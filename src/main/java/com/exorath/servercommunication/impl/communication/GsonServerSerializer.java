@@ -2,6 +2,7 @@ package com.exorath.servercommunication.impl.communication;
 
 import com.exorath.servercommunication.api.communication.ServerSerializer;
 import com.exorath.servercommunication.api.servers.Server;
+import com.exorath.servercommunication.impl.server.ServerImpl;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 
@@ -17,6 +18,6 @@ public class GsonServerSerializer implements ServerSerializer {
 
     @Override
     public Server deserialize(String message) {
-        return new Gson().fromJson(new JsonParser().parse(message), Server.class);
+        return new Gson().fromJson(new JsonParser().parse(message), ServerImpl.class);
     }
 }

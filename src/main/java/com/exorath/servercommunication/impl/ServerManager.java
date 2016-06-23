@@ -5,6 +5,7 @@ import com.exorath.servercommunication.api.servers.Server;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -17,7 +18,7 @@ public class ServerManager {
     private CommunicationManager communicationManager;
     //Will packaging this in a wrapper object impact performance?
     private HashMap<String, Server> serversById = new HashMap<>();
-    private HashMap<String, HashSet<Server>> serversByChannel = new HashMap<>();
+    private HashMap<String, HashSet<String>> serversByChannel = new HashMap<>();
     private HashMap<String, ScheduledFuture> futuresByServerId = new HashMap<>();
 
     public ServerManager(CommunicationManager communicationManager){
@@ -37,7 +38,7 @@ public class ServerManager {
     private void putServer(String channel, Server server){
         serversById.put(server.getId(), server);
         serversByChannel.putIfAbsent(channel, new HashSet<>());
-        serversByChannel.get(channel).add(server);
+        serversByChannel.get(channel).add(server.getId());
 
     }
 
@@ -48,15 +49,18 @@ public class ServerManager {
     }
 
     private void remove(String channel, Server server){
+        futuresByServerId.remove(server.getId());
         serversById.remove(server.getId());
-        serversByChannel.get(channel).remove(server);
+        serversByChannel.get(channel).remove(server.getId());
+        if(serversByChannel.get(channel).size() == 0)
+            serversByChannel.remove(channel);
     }
 
     public HashMap<String, Server> getServersById() {
         return serversById;
     }
 
-    public HashMap<String, HashSet<Server>> getServersByChannel() {
+    public HashMap<String, HashSet<String>> getServersByChannel() {
         return serversByChannel;
     }
 }

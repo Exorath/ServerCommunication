@@ -18,7 +18,7 @@ public class MockServerProvider implements ServerProvider {
     }
     @Override
     public Server getServer() {
-        return new ServerImpl();
+        return new ServerImpl("sampleid");
     }
 
     @Override

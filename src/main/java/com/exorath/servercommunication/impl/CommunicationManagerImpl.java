@@ -28,9 +28,9 @@ public class CommunicationManagerImpl implements CommunicationManager {
     private int heartbeat;
     private TimeUnit heartbeatTimeUnit;
 
-    private Subject<ServerEvent, ServerEvent> onPublish;
-    private Subject<ServerEvent, ServerEvent> onServerUpdate;
-    private Subject<ServerEvent, ServerEvent> onServerRemoved;
+    private Subject<ServerEvent, ServerEvent> onPublish = new SerializedSubject(PublishSubject.create());;
+    private Subject<ServerEvent, ServerEvent> onServerUpdate = new SerializedSubject(PublishSubject.create());
+    private Subject<ServerEvent, ServerEvent> onServerRemoved = new SerializedSubject(PublishSubject.create());
 
     private ServerManager serverManager;
     public CommunicationManagerImpl(PubSub pubSub, ServerProvider serverProvider, int heartbeat, TimeUnit heartbeatTimeUnit) {
@@ -43,16 +43,8 @@ public class CommunicationManagerImpl implements CommunicationManager {
         this.serverSerializer = new GsonServerSerializer();
 
         this.serverManager = new ServerManager(this);
-    }
 
-    private void setupSubjects() {
-        onPublish = getNewSubject();
-        onServerUpdate = getNewSubject();
-        onServerRemoved = getNewSubject();
-    }
-
-    private Subject<ServerEvent, ServerEvent> getNewSubject() {
-        return new SerializedSubject(PublishSubject.create());
+        pubSub.addSubscriptionConsumer(new SubConsumer());
     }
 
     @Override
@@ -66,7 +58,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
     }
 
     @Override
-    public Map<String, HashSet<Server>> getServersByChannel() {
+    public Map<String, HashSet<String>> getServersByChannel() {
         return serverManager.getServersByChannel();
     }
 
@@ -141,7 +133,7 @@ public class CommunicationManagerImpl implements CommunicationManager {
     private class SubConsumer implements SubscriptionConsumer{
         @Override
         public void onPublish(String channel, String message) {
-
+            serverManager.onMessage(channel, message);
         }
 
     }

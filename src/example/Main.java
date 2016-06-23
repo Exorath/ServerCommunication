@@ -25,11 +25,11 @@ public class Main {
 
 
     public Server getFilteredServerExample1(){
-        Optional<Map.Entry<String, HashSet<Server>>> filtered = communicationManager.getServersByChannel().entrySet().stream()
+        Optional<Map.Entry<String, HashSet<String>>> filtered = communicationManager.getServersByChannel().entrySet().stream()
                 .filter((entry) -> entry.getKey().startsWith("application.servers.filter"))
                 .findAny();
 
-        return filtered.isPresent() ? filtered.get().getValue().stream().findAny().orElse(null) : null;
+        return filtered.isPresent() ? communicationManager.getServersById().get(filtered.get().getValue().stream().findAny().orElse(null)) : null;
     }
 
     public Server getFilteredServerExample2(){

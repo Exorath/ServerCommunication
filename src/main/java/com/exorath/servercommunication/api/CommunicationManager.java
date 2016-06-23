@@ -109,7 +109,7 @@ public interface CommunicationManager {
 
     Collection<Server> getServers();
     Map<String, Server> getServersById();
-    Map<String, HashSet<Server>> getServersByChannel();
+    Map<String, HashSet<String>> getServersByChannel();
     /**
      * Tries to start the CommunicationManager with an {@link redis.clients.jedis.JedisPubSub}
      *
