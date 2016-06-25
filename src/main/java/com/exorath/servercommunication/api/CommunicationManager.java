@@ -50,35 +50,6 @@ public interface CommunicationManager {
     ServerProvider getPublishChannel();
 
     /**
-     * Sets the interval this server should automatically publish itself over.
-     * Note that if publishSelf is called between two heartbeats, the heartbeat time is reset and an other heartbeat will only be send after this interval.
-     *
-     * @param heartbeat interval this server should publish itself over
-     */
-    void setHeartbeat(int heartbeat);
-
-    /**
-     * Gets the interval this server should automatically publish itself over.
-     *
-     * @return The interval this server should automatically publish itself over
-     */
-    int getHeartbeat();
-
-    /**
-     * Sets the TimeUnit of the heartbeat interval.
-     *
-     * @param heartbeatTimeUnit timeunit to assign to the heartbeat interval
-     */
-    void setHeartbeatTimeUnit(TimeUnit heartbeatTimeUnit);
-
-    /**
-     * Gets the TimeUnit of the heartbeat interval.
-     *
-     * @return the TimeUnit of the heartbeat interval
-     */
-    TimeUnit getHeartbeatTimeUnit();
-
-    /**
      * Gets the server serializer, it is responsible for serializing and deserializing servers from and to strings. Default serializer is the GsonServerSerializer.
      * @return the server serializer
      */
@@ -100,6 +71,12 @@ public interface CommunicationManager {
      * @param channels channels to subscribe to
      */
     void subscribe(String... channels);
+
+    /**
+     * Updates the {@link ServerProvider} of this CommunicationManager.
+     * @param serverProvider provider to assign to this communication manager
+     */
+    void setServerProvider(ServerProvider serverProvider);
 
     Subject<ServerEvent,ServerEvent> getOnPublish();
 
@@ -129,6 +106,6 @@ public interface CommunicationManager {
      * @return The manager if it successfully started, null if an exception was thrown (it will be printed to the console as well).
      */
     static CommunicationManagerImpl create(PubSub pubSub, ServerProvider serverProvider) {
-        return new CommunicationManagerImpl(pubSub, serverProvider, CommunicationManager.DEFAULT_HEARTBEAT, DEFAULT_HEARTBEAT_TIME_UNIT);
+        return new CommunicationManagerImpl(pubSub, serverProvider);
     }
 }

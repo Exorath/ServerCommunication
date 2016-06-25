@@ -25,6 +25,9 @@ public class ServerManager {
         this.communicationManager = communicationManager;
     }
     public void onMessage(String channel, String message){
+        if(communicationManager.getServerSerializer() == null)
+            return;
+
         Server server = communicationManager.getServerSerializer().deserialize(message);
 
         cancelFuture(server.getId());

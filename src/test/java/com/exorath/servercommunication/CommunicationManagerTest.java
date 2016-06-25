@@ -93,7 +93,7 @@ public class CommunicationManagerTest {
             assertEquals(1, manager.getServers().size());
             assertEquals(1, manager.getServersByChannel().size());
             assertEquals(1, manager.getServersById().size());
-            Thread.sleep(5);
+            Thread.sleep(6);
             assertEquals(0, manager.getServers().size());
             assertEquals(0, manager.getServersByChannel().size());
             assertEquals(0, manager.getServersById().size());

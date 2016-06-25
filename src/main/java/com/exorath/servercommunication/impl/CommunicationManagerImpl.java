@@ -25,26 +25,26 @@ public class CommunicationManagerImpl implements CommunicationManager {
     private ServerProvider serverProvider;
     private ServerSerializer serverSerializer;
 
-    private int heartbeat;
-    private TimeUnit heartbeatTimeUnit;
 
-    private Subject<ServerEvent, ServerEvent> onPublish = new SerializedSubject(PublishSubject.create());;
+    private Subject<ServerEvent, ServerEvent> onPublish = new SerializedSubject(PublishSubject.create());
     private Subject<ServerEvent, ServerEvent> onServerUpdate = new SerializedSubject(PublishSubject.create());
     private Subject<ServerEvent, ServerEvent> onServerRemoved = new SerializedSubject(PublishSubject.create());
 
     private ServerManager serverManager;
-    public CommunicationManagerImpl(PubSub pubSub, ServerProvider serverProvider, int heartbeat, TimeUnit heartbeatTimeUnit) {
+
+    public CommunicationManagerImpl(PubSub pubSub, ServerProvider serverProvider) {
         this.pubSub = pubSub;
+        setServerProvider(serverProvider);
+
+        setServerSerializer(new GsonServerSerializer());
+
+        this.serverManager = new ServerManager(this);//requires serverSerializer, is this bad coding practice?
+        pubSub.addSubscriptionConsumer(new SubConsumer());//requires serverManager, is this bad coding practice?
+    }
+
+    @Override
+    public void setServerProvider(ServerProvider serverProvider) {
         this.serverProvider = serverProvider;
-
-        this.heartbeat = heartbeat;
-        this.heartbeatTimeUnit = heartbeatTimeUnit;
-
-        this.serverSerializer = new GsonServerSerializer();
-
-        this.serverManager = new ServerManager(this);
-
-        pubSub.addSubscriptionConsumer(new SubConsumer());
     }
 
     @Override
@@ -70,26 +70,6 @@ public class CommunicationManagerImpl implements CommunicationManager {
     @Override
     public ServerProvider getPublishChannel() {
         return serverProvider;
-    }
-
-    @Override
-    public void setHeartbeat(int heartbeat) {
-        this.heartbeat = heartbeat;
-    }
-
-    @Override
-    public int getHeartbeat() {
-        return heartbeat;
-    }
-
-    @Override
-    public void setHeartbeatTimeUnit(TimeUnit heartbeatTimeUnit) {
-        this.heartbeatTimeUnit = heartbeatTimeUnit;
-    }
-
-    @Override
-    public TimeUnit getHeartbeatTimeUnit() {
-        return heartbeatTimeUnit;
     }
 
     @Override
@@ -130,10 +110,11 @@ public class CommunicationManagerImpl implements CommunicationManager {
     }
 
 
-    private class SubConsumer implements SubscriptionConsumer{
+    private class SubConsumer implements SubscriptionConsumer {
         @Override
         public void onPublish(String channel, String message) {
-            serverManager.onMessage(channel, message);
+            if (serverManager != null)
+                serverManager.onMessage(channel, message);
         }
 
     }
